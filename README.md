@@ -7,7 +7,7 @@ I downloaded his entire repo, removed all the solutions, then redid the director
 Removing solutions:
 
 ```shell
-rm */'index-START.html'
+rm */'index-FINISHED.html'
 ```
 
 [Renaming stuff:](https://unix.stackexchange.com/questions/223182/how-to-replace-spaces-in-all-file-names-with-underscore-in-linux-using-shell-scr)
