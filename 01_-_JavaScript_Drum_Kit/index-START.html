@@ -59,8 +59,21 @@
       // keycode.info can tell you these keys. data-key is own custom type...
       window.addEventListener("keydown", (e) => {
         const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
         if (!audio) return;
         audio.play();
+        key.classList.add("playing");
+        // transition end event to sync with CSS animation
+      });
+
+      // Listen to all the keys
+      const keys = document.querySelectorAll(".key");
+      const removeTransition = (e) => {
+        console.log(e);
+        // e.classList.remove("playing")
+      };
+      keys.forEach((key) => {
+        key.addEventListener("transitionend", removeTransition);
       });
     </script>
   </body>
