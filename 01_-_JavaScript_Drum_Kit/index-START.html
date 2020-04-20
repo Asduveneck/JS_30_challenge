@@ -66,25 +66,24 @@
       const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
       const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
       if (!audio) return;
-      if (keyCodeSet.has(e.keyCode)) return; // stops duplicate
+      if (keyCodeSet.has(e.keyCode)) return; // stops duplicate sound if held on
+      audio.currentTime = 0; // restart audio with each keypress
       audio.play();
       key.classList.add("playing");
-      keyCodeSet.add(e.keyCode);
+      keyCodeSet.add(e.keyCode); // tracks a key was pressed
     }
-
 
     // Listen to all the keys
     const keys = document.querySelectorAll(".key");
 
-    function removeTransition(e) { // no => to preserve context
-      // we see the CSS for border (4 directions) and everything else changes; we only need one though
-      if (e.propertyName !== "transform") return;
-      this.classList.remove('playing'); // this: each key below because called upon
-    };
-
     keys.forEach((key) => {
       key.addEventListener("transitionend", removeTransition);
     });
+
+    function removeTransition(e) { // no => to preserve context
+      if (e.propertyName !== "transform") return;
+      this.classList.remove('playing'); // this: the div class
+    };
 
     // remove class border once someone lets go if they held on too long
     function removeHeldTransition(e) {
@@ -96,7 +95,7 @@
     }
 
     window.addEventListener("keydown", playSound);
-    window.addEventListener("keyup", removeHeldTransition)
+    window.addEventListener("keyup", removeHeldTransition);
   </script>
 </body>
 
