@@ -59,14 +59,19 @@
 
   <script>
     // keycode.info can tell you these keys. data-key is own custom type...
-    window.addEventListener("keydown", (e) => {
+    const keyCodeSet = new Set(); // To stop duplicated/repeated keys:
+
+    // Playing audio sound
+    function playSound(e) {
       const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
       const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
       if (!audio) return;
+      if (keyCodeSet.has(e.keyCode)) return; // stops duplicate
       audio.play();
       key.classList.add("playing");
-      // transition end event to sync with CSS animation
-    });
+      keyCodeSet.add(e.keyCode);
+    }
+
 
     // Listen to all the keys
     const keys = document.querySelectorAll(".key");
@@ -76,9 +81,22 @@
       if (e.propertyName !== "transform") return;
       this.classList.remove('playing'); // this: each key below because called upon
     };
+
     keys.forEach((key) => {
       key.addEventListener("transitionend", removeTransition);
     });
+
+    // remove class border once someone lets go if they held on too long
+    function removeHeldTransition(e) {
+      if (keyCodeSet.has(e.keyCode)) {
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        key.classList.remove('playing');
+        keyCodeSet.delete(e.keyCode);
+      }
+    }
+
+    window.addEventListener("keydown", playSound);
+    window.addEventListener("keyup", removeHeldTransition)
   </script>
 </body>
 
