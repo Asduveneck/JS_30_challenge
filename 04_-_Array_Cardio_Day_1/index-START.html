@@ -68,11 +68,22 @@
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const inventorsSortLastName = inventors.sort( (a,b) => a.last.localeCompare(b.last))
+    console.log(inventorsSortLastName);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
 
+    const dataCount = data.reduce((obj, item) => {
+      if (obj[item]) {
+        obj[item] += 1;
+      } else {
+        obj[item] = 1
+      }
+      return obj;
+    }, {})
+    console.log(dataCount);
   </script>
 </body>
 </html>
