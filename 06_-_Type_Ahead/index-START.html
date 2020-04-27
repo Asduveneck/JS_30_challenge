@@ -21,12 +21,18 @@
       'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
     const cities = [];
     async function fetchData(url) {
-      const unparsed = fetch(url);
-      const parsed = await unparsed.json();
-      return parsed;
+      try {
+        const unparsed = await fetch(url);
+        const parsed = await unparsed.json();
+        return parsed;
+      } catch (err) {
+        console.log('fetch failed: ', err)
+      }
     }
-    console.log(await fetchData(endpoint));
+    fetchData(endpoint);
   </script>
+
+
 </body>
 
 </html>
